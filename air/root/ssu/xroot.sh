@@ -1,19 +1,19 @@
 #!/system/bin/sh
-
 check_adb_devices() {
-    devices_output=$(adb devices | grep -w "emulator")
-
-    if [ -z "$devices_output" ]; then
-        echo "Couldn't find device. Enable ADB in Settings > Advanced"
+    adb_status=$(adb shell echo "check" 2>&1)
+    if echo "$adb_status" | grep -q "error: closed"; then
+        echo "ADB connection closed. Enable ADB in Settings > Advanced"
         exit 1
     else
-        echo "Found device:"
-        echo "$devices_output"
+        echo "Found device..."
+        adb devices
     fi
 }
 
 echo
 echo " -- STAGE 1 --"
+mkdir ~/downloads
+
 echo "Fetching environment"
    if [ ! -e /mnt/macos ]; then
         echo "Could not verify environment as BlueStacks Air"
@@ -23,10 +23,12 @@ echo "Fetching environment"
         fi
 
 if [ ! -e /data/data/com.termux/files/home/storage ]; then
+echo
 echo "Running termux-setup-storage,"
-echo "You will be prompted to give Termux access"
-echo "to all files in the system"
+echo "You will be prompted to give Termux access to all files"
+echo "in the system"
     termux-setup-storage
+    sleep 12
     fi
 
 echo "Searching for git"
