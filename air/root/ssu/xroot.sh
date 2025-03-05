@@ -5,14 +5,16 @@ check_adb_devices() {
         echo "ADB connection closed. Enable ADB in Settings > Advanced"
         exit 1
     else
-        echo "Found device..."
+        echo "Found device;"
         adb devices
     fi
 }
 
 echo
 echo " -- STAGE 1 --"
-mkdir ~/downloads
+if [ ! -e ~/downloads ]; then
+    mkdir ~/downloads
+    fi
 
 echo "Fetching environment"
    if [ ! -e /mnt/macos ]; then
@@ -26,7 +28,8 @@ if [ ! -e /data/data/com.termux/files/home/storage ]; then
 echo
 echo "Running termux-setup-storage,"
 echo "You will be prompted to give Termux access to all files"
-echo "in the system"
+echo "in the system."
+echo "The terminal will sleep for 12 seconds."
     termux-setup-storage
     sleep 12
     fi
@@ -56,7 +59,7 @@ adb shell mkdir -p /sdcard/tmp/bstk
 mkdir ~/downloads/bstk
 cd ~/downloads/bstk
 
-echo "Fetching tmp from twinstarred/air/root/ssu"
+echo "Fetching files from twinstarred/air/root/ssu"
     git clone -q -n https://github.com/twinstarred/bstk --depth 1
     cd bstk
     git checkout HEAD air/root/ssu/tmp
@@ -80,15 +83,20 @@ adb shell chmod 755 /data/local/tmp/SuperSU.apk
 # as cozy as possible
 echo
 echo " -- STAGE 3 --"
-echo "Placing su binary"
-/data/local/tmp/su -c echo "(Current user: $(/data/local/tmp/su -c whoami))"
+echo "Placing su binary & its associated files"
+/data/local/tmp/su -c echo "Current user: $(/data/local/tmp/su -c whoami)"
 /data/local/tmp/su -c mount -o rw,remount /system
     if [ ! -e /system/xbin ]; then
         /data/local/tmp/su -c mkdir /system/xbin
         fi
 /data/local/tmp/su -c mv -f /data/local/tmp/su /system/xbin/su
-/data/local/tmp/su -c mount -o ro,remount /system
+/system/xbin/su -c mv -f /data/local/tmp/daemonsu /system/xbin/daemonsu
+/system/xbin/su -c mv -f /data/local/tmp/supolicy /system/xbin/supolicy
+/system/xbin/su -c mount -o ro,remount /system
+
+echo "Installing SuperSU.apk"
 adb install /data/local/tmp/SuperSU.apk
 
+echo
 echo "Successfully finished all operations!"
-echo "BlueStacks Air is now rooted"
+echo "BlueStacks Air is now rooted (2.79:SUPERSU)"
