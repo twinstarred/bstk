@@ -27,6 +27,7 @@ echo "Running termux-setup-storage,"
 echo "You will be prompted to give Termux access"
 echo "to all files in the system"
     termux-setup-storage
+    fi
 
 echo "Searching for git"
     if [ ! -e /data/data/com.termux/files/usr/bin/git ]; then
