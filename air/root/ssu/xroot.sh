@@ -37,7 +37,7 @@ echo "The terminal will sleep for 12 seconds."
 echo "Searching for git"
     if [ ! -e /data/data/com.termux/files/usr/bin/git ]; then
         echo "Installing git"
-        pkg install git
+        pkg install -y git 2>/dev/null >/dev/null;
     else
         echo "Found git, skipping"
         fi
@@ -45,7 +45,7 @@ echo "Searching for git"
 echo "Searching for android-tools"
     if [ ! -e /data/data/com.termux/files/usr/bin/adb ]; then
         echo "Installing android-tools"
-        pkg install android-tools
+        pkg install -y android-tools 2>/dev/null >/dev/null;
     else
         echo "Found android-tools, skipping"
         fi
