@@ -7,7 +7,7 @@
 ## Using vulnerability (Recommended)
 ```sh air/root/ssu/xroot_vul.sh``` \
 or \
-```curl https://raw.githubusercontent.com/twinstarred/bstk/main/air/root/ssu/xroot_vul.sh > xroot_vul.sh && sh xroot_vul.sh``` \
+```curl https://raw.githubusercontent.com/twinstarred/bstk/main/air/root/ssu/xroot_vul.sh > xroot_vul.sh && sh xroot_vul.sh```
 
 There is a bug where the script will be in DOS format instead of Unix. To fix this, run ```dos2unix``` on the script \
 (```dos2unix xroot_vul.sh```)
